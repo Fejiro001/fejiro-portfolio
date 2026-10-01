@@ -1,16 +1,33 @@
-# React + Vite
+# My Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a personal portfolio website that showcases my projects, skills, and experiences. It is built using React, Tailwind CSS, and is designed to be responsive and user-friendly.
 
-Currently, two official plugins are available:
+## Homepage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Homepage Screenshot](./homepage.png)
 
-## React Compiler
+## Project Page
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![Project Screenshot](./project.png)
 
-## Expanding the ESLint configuration
+### Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Home page with a brief introduction
+- Projects section displaying my work with links to live demos and GitHub repositories
+- About Me section with a short biography and background information
+- Achievements section highlighting notable accomplishments and recognitions
+- Skills section highlighting my technical abilities
+- Contact information for visitors to reach out to me
+- Individual project pages with detailed descriptions and screenshots showcasing stack, features, and technologies used
+
+## Technologies Used
+
+- JavaScript
+- React
+- React Router
+- Framer Motion
+- Tailwind CSS
+- Vite
+
+## Demo
+You can view the live demo of my portfolio website [here](https://fejiro-abere.vercel.app/).
