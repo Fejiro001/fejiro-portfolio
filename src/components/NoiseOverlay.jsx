@@ -22,7 +22,7 @@ export default function NoiseOverlay() {
   return (
     <>
       <div className="noise-overlay" aria-hidden="true" />
-      {/* Peripheral gutter meta — desktop only */}
+      {/* Desktop only */}
       <div className="hidden lg:flex fixed left-4 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-6">
         <span className="vertical-text font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase">
           Winnipeg · CA

@@ -4,30 +4,30 @@
 
 @layer base {
   :root {
-    --background: 0 0% 3.1%;
-    --foreground: 0 0% 94.9%;
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 94.9%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 94.9%;
-    --primary: 0 0% 94.9%;
-    --primary-foreground: 0 0% 3.1%;
-    --secondary: 0 0% 9%;
-    --secondary-foreground: 0 0% 94.9%;
-    --muted: 0 0% 9%;
-    --muted-foreground: 0 0% 53.3%;
-    --accent: 220 70% 55%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 45%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 222 100% 59%;
+    --background: #080808;
+    --foreground: #f2f2f2;
+    --card: #0d0d0d;
+    --card-foreground: #f2f2f2;
+    --popover: #0d0d0d;
+    --popover-foreground: #f2f2f2;
+    --primary: #f2f2f2;
+    --primary-foreground: #080808;
+    --secondary: #171717;
+    --secondary-foreground: #f2f2f2;
+    --muted: #171717;
+    --muted-foreground: #888888;
+    --accent: #3c71dd;
+    --accent-foreground: #ffffff;
+    --destructive: #bb2b2b;
+    --destructive-foreground: #fafafa;
+    --border: #242424;
+    --input: #242424;
+    --ring: #2e6dff;
     --radius: 0.25rem;
-    --font-heading: 'Fraunces', ui-serif, Georgia, serif;
-    --font-body: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Fraunces', ui-serif, Georgia, serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font-heading: "Fraunces", ui-serif, Georgia, serif;
+    --font-body: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
   }
 }
 
@@ -89,8 +89,16 @@
 
   .grid-lines {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.025) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.025) 1px,
+        transparent 1px
+      );
     background-size: 80px 80px;
   }
 
