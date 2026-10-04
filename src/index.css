@@ -104,6 +104,8 @@
     text-orientation: mixed;
   }
 
+  .noise-text { @apply vertical-text font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase;}
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

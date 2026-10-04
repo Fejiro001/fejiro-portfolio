@@ -23,15 +23,13 @@ export default function NoiseOverlay() {
     <>
       <div className="noise-overlay" aria-hidden="true" />
       {/* Desktop only */}
-      <div className="hidden lg:flex fixed left-4 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-6">
-        <span className="vertical-text font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase">
-          Winnipeg · CA
-        </span>
+      <div className="hidden lg:flex fixed left-2 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-6">
+        <span className="noise-text">Winnipeg · CA</span>
         <div className="w-px h-16 bg-border" />
       </div>
-      <div className="hidden lg:flex fixed right-4 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-6">
+      <div className="hidden lg:flex fixed right-2 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-6">
         <div className="w-px h-16 bg-border" />
-        <span className="vertical-text font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase">
+        <span className="noise-text">
           {time} CT
         </span>
       </div>
