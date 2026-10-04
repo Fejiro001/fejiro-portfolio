@@ -12,7 +12,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 10);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -27,7 +27,7 @@ export default function Header() {
       }`}>
       <nav className="mx-auto max-w-[1600px] px-6 md:px-10 h-16 flex items-center justify-between">
         <a
-          href="/#top"
+          href="/"
           className="font-display text-base md:text-lg font-medium tracking-tight hover:text-accent transition-colors">
           FEJIRO ABERE
         </a>
@@ -66,7 +66,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+        <div className="md:hidden border-y border-border bg-background/95 backdrop-blur-md">
           <ul className="flex flex-col px-6 py-4">
             {links.map((l) => (
               <li key={l.href}>
