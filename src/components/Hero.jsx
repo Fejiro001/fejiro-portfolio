@@ -7,7 +7,7 @@ const lines = ["FEJIRO", "ABERE"];
 
 const letterParent = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.045, delayChildren: 0.1 } }
+  visible: { transition: { staggerChildren: 0.045, delayChildren: 0.2 } }
 };
 const letterChild = {
   hidden: { y: "110%" },
@@ -16,9 +16,7 @@ const letterChild = {
 
 export default function Hero() {
   return (
-    <section
-      id="top"
-      className="relative min-h-screen flex flex-col justify-end pt-24 pb-12 px-6 md:px-10 grid-lines overflow-hidden">
+    <section className="relative min-h-screen flex flex-col justify-end pt-24 pb-12 px-6 md:px-10 grid-lines overflow-hidden">
       {/* Decorative oversized index */}
       <div className="absolute top-28 right-6 md:right-10 font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
         01 — Index
@@ -61,9 +59,9 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="md:col-span-6 lg:col-span-5 text-lg md:text-xl leading-relaxed text-muted-foreground">
-            Building thoughtful digital experiences at the intersection of
-            high-fidelity aesthetics and performant logic — with React,
-            TypeScript, and modern web technologies.
+            Software developer building clean, high-performance web applications
+            with React and .NET, blending intuitive user interfaces with
+            reliable logic.
           </motion.p>
 
           <motion.div
@@ -122,7 +120,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        className="hidden absolute bottom-6 left-1/2 -translate-x-1/2 lg:flex flex-col items-center gap-2">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
           Scroll
         </span>
