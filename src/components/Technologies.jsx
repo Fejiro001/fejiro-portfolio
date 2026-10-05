@@ -19,8 +19,8 @@ const exploring = ["TypeScript", "Next.js", "Scalable Frontend Architecture"];
 
 export default function Technologies() {
   return (
-    <section className="relative px-6 md:px-10 py-20 md:py-32 border-t border-border">
-      <div className="mx-auto max-w-[1600px]">
+    <section className="section-block border-top">
+      <div className="section-width">
         <div className="grid md:grid-cols-12 gap-10 md:gap-16">
           <div className="md:col-span-3">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">

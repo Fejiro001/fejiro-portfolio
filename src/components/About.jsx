@@ -24,10 +24,8 @@ const achievements = [
 
 export default function About() {
   return (
-    <section
-      id="about"
-      className="relative px-6 md:px-10 py-20 md:py-32 border-t border-border">
-      <div className="mx-auto max-w-[1600px]">
+    <section id="about" className="section-block border-top">
+      <div className="section-width">
         <div className="grid md:grid-cols-12 gap-10 md:gap-16">
           {/* Left: label + portrait */}
           <div className="md:col-span-4">

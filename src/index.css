@@ -24,10 +24,10 @@
     --input: 0 0% 14%;
     --ring: 222 100% 59%;
     --radius: 0.25rem;
-    --font-heading: 'Fraunces', ui-serif, Georgia, serif;
-    --font-body: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Fraunces', ui-serif, Georgia, serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font-heading: "Fraunces", ui-serif, Georgia, serif;
+    --font-body: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
   }
 }
 
@@ -89,8 +89,16 @@
 
   .grid-lines {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.025) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.025) 1px,
+        transparent 1px
+      );
     background-size: 80px 80px;
   }
 
@@ -104,7 +112,21 @@
     text-orientation: mixed;
   }
 
-  .noise-text { @apply vertical-text font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase;}
+  .noise-text {
+    @apply vertical-text font-mono text-[10px] tracking-[0.3em] text-muted-foreground uppercase;
+  }
+
+  .section-block {
+    @apply relative px-6 md:px-10 py-20 md:py-32;
+  }
+
+  .section-block.border-top {
+    @apply border-t border-border;
+  }
+
+  .section-width {
+    @apply mx-auto max-w-[1600px];
+  }
 
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -117,3 +139,4 @@
     }
   }
 }
+

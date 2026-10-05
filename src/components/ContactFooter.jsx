@@ -6,7 +6,7 @@ export default function ContactFooter() {
     <footer
       id="contact"
       className="relative border-t border-border px-6 md:px-10 pt-20 md:pt-32 pb-10 bg-accent text-accent-foreground overflow-hidden">
-      <div className="mx-auto max-w-[1600px]">
+      <div className="section-width">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent-foreground/70 mb-6">
           06 — Let's Work Together
         </p>

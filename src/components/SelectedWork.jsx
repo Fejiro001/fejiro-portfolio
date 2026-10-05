@@ -95,8 +95,8 @@ function CaseStudy({ project, index }) {
 
 export default function SelectedWork() {
   return (
-    <section id="work" className="relative px-6 md:px-10 py-20 md:py-32">
-      <div className="mx-auto max-w-[1600px]">
+    <section id="work" className="section-block">
+      <div className="section-width">
         <div className="flex items-end justify-between mb-12 md:mb-20">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
