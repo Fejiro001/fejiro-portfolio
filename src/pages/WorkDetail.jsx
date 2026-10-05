@@ -11,8 +11,6 @@ import {
   Code
 } from "feather-icons-react";
 import CodeBlock from "../components/CodeBlock";
-import NoiseOverlay from "../components/NoiseOverlay";
-import Header from "../components/Header";
 import {
   getProjectBySlug,
   getAdjacentProjects,
@@ -114,9 +112,6 @@ export default function WorkDetail() {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground">
-      <NoiseOverlay />
-      <Header />
-
       <main className="pt-24">
         {/* Header */}
         <section className="px-6 md:px-10 pb-12 md:pb-16">

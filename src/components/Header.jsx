@@ -37,7 +37,7 @@ export default function Header() {
             {links.map((l) => (
               <li key={l.href}>
                 <a
-                  href={l.href}
+                  href={`/${l.href}`}
                   className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors">
                   {l.label}
                 </a>
