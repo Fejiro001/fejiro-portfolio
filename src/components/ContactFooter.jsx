@@ -13,25 +13,23 @@ export default function ContactFooter() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const onSubmit = async (data) => {
-    await fetch("https://api.web3forms.com/submit", {
+    const response = fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
       body: JSON.stringify(data, null, 2)
-    })
-      .then(async (response) => {
-        const result = await response.json();
-        if (result.success) {
-          reset();
-          setIsSuccess(true);
-        }
-      })
-      .catch((error) => {
-        setIsSuccess(false);
-        console.log(error);
-      });
+    });
+    const result = await response.json();
+
+    if (result.success) {
+      reset();
+      setIsSuccess(true);
+    } else {
+      setIsSuccess(false);
+      console.log(result);
+    }
   };
 
   return (

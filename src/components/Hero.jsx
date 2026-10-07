@@ -28,7 +28,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="font-mono text-xs uppercase tracking-[0.3em] text-accent mb-6 md:mb-10">
-          Frontend Developer
+          Full-stack Developer
         </motion.p>
 
         <motion.h1
