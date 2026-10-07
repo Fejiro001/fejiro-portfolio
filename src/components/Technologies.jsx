@@ -15,7 +15,7 @@ const groups = [
   }
 ];
 
-const exploring = ["TypeScript", "Next.js", "Scalable Frontend Architecture"];
+const exploring = ["TypeScript", "Next.js", "Scalable Frontend Architecture", "AWS"];
 
 export default function Technologies() {
   return (

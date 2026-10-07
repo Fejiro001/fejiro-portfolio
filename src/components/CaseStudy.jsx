@@ -8,8 +8,8 @@ export default function CaseStudy({ project, index }) {
     <motion.article
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ type: "spring", stiffness: 70, damping: 18, mass: 1 }}
       className="group border-t border-border py-10 md:py-16">
       <div className="grid md:grid-cols-12 gap-6 md:gap-10 items-center">
         {/* Meta column */}
@@ -22,12 +22,12 @@ export default function CaseStudy({ project, index }) {
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
               {project.category}
             </span>
-            {project.award && (
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent border border-accent/40 px-2 py-0.5">
-                ★ {project.award}
-              </span>
-            )}
           </div>
+          {project.award && (
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent border border-accent/40 px-2 py-0.5 mb-5 block w-fit">
+              ★ {project.award}
+            </span>
+          )}
 
           <Link to={`/work/${project.slug}`}>
             <h3
