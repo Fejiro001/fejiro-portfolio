@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -14,8 +15,9 @@ import CodeBlock from "../components/CodeBlock";
 import {
   getProjectBySlug,
   getAdjacentProjects,
-  parseRepo
-} from "../data/projects";
+  parseRepo,
+  formatDate
+} from "../utils/projectUtils";
 
 function StatPill({ icon: Icon, label, value }) {
   return (
@@ -70,19 +72,6 @@ function useRepoStats(githubUrl) {
   return { stats, status };
 }
 
-function formatDate(iso) {
-  if (!iso) return "—";
-  try {
-    return new Date(iso).toLocaleDateString("en-CA", {
-      year: "numeric",
-      month: "short",
-      day: "numeric"
-    });
-  } catch {
-    return "—";
-  }
-}
-
 export default function WorkDetail() {
   const { slug } = useParams();
   const project = getProjectBySlug(slug);
@@ -98,6 +87,7 @@ export default function WorkDetail() {
           That project doesn't exist.
         </h1>
         <Link
+          smooth
           to="/#work"
           className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-accent">
           <ArrowLeft className="h-4 w-4" />

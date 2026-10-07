@@ -17,25 +17,25 @@ export const projects = [
     role: "Full Stack",
     narrative: {
       problem:
-        "Discovering and running a technology conference means juggling schedules, speakers, tracks, and rooms — while making sure no two talks collide in the same space and every session actually fits within the conference window. The goal was a single platform that served three audiences at once: anonymous visitors exploring the schedule, registered users curating a personal agenda, and administrators enforcing the rules behind the scenes.",
+        "Discovering and running a technology conference means juggling schedules, speakers, tracks, and rooms, while making sure no two talks collide in the same space and every session actually fits within the conference window. The goal was a single platform that served three audiences at once: anonymous visitors exploring the schedule, registered users curating a personal agenda, and administrators enforcing the rules behind the scenes.",
       approach:
-        "I built it as a layered ASP.NET Core MVC application — controllers and ViewModels in the presentation layer, services in the business layer, and repositories over Entity Framework Core and SQL Server in the data layer. ASP.NET Core Identity handled authentication with role-based authorization gating the admin CRUD surfaces, and Bootstrap 5 carried a responsive, consistent UI. ViewComponents kept speaker and talk details reusable across pages.",
+        "I built it as a layered ASP.NET Core MVC application with controllers and ViewModels in the presentation layer, services in the business layer, and repositories over Entity Framework Core and SQL Server in the data layer. ASP.NET Core Identity handled authentication with role-based authorization gating the admin CRUD surfaces, and Bootstrap 5 carried a responsive, consistent UI. ViewComponents kept speaker and talk details reusable across pages.",
       hurdles: [
         {
           title: "Enforcing scheduling rules",
           detail:
-            "Talks can't overlap in the same room, must sit inside the conference's date range, and must end after they start. I centralized those checks in the service layer so every create and update path validated against the same rules — the UI could never let an invalid schedule slip through.",
+            "Talks can't overlap in the same room, must sit inside the conference's date range, and must end after they start. I centralized those checks in the service layer so every create and update path validated against the same rules — the UI could never let an invalid schedule slip through."
         },
         {
           title: "Layering without leakage",
           detail:
-            "A conference domain invites thick controllers. I kept the presentation layer thin by pushing logic into services and data access into repositories, so controllers only coordinated — which made the business rules testable and the codebase easier to extend.",
+            "A conference domain invites thick controllers. I kept the presentation layer thin by pushing logic into services and data access into repositories, so controllers only coordinated — which made the business rules testable and the codebase easier to extend."
         },
         {
           title: "Personal schedules with auth",
           detail:
-            "Letting users save talks meant tying ASP.NET Core Identity to a SavedTalk join table, with a business rule preventing duplicates. The same identity system drove role-based access so admins and visitors saw exactly what they were allowed to.",
-        },
+            "Letting users save talks meant tying ASP.NET Core Identity to a SavedTalk join table, with a business rule preventing duplicates. The same identity system drove role-based access so admins and visitors saw exactly what they were allowed to."
+        }
       ],
       solution:
         "The result is a platform that scales across its three audiences: visitors filter and browse schedules, registered users build personal agendas, and administrators get full CRUD with scheduling rules enforced at the source — all on a layered architecture that stays maintainable as the domain grows.",
@@ -59,7 +59,7 @@ public void CreateTalk(Talk talk)
         throw new ValidationException("This room already has a talk at that time.");
     _context.Talks.Add(talk);
     _context.SaveChanges();
-}`,
+}`
         },
         {
           label: "Repository over EF Core",
@@ -75,10 +75,10 @@ public void CreateTalk(Talk talk)
             .Include(t => t.Room)
             .Where(t => t.ConferenceId == confId)
             .ToList();
-}`,
-        },
-      ],
-    },
+}`
+        }
+      ]
+    }
   },
   {
     slug: "detective-case-file-system",
@@ -105,18 +105,18 @@ public void CreateTalk(Talk talk)
         {
           title: "Cascading case-to-suspect dropdowns",
           detail:
-            "When logging evidence, the suspect list has to reflect the currently selected case — not every suspect in the system. I wired a change listener on the case dropdown that fetched only the linked suspects, so the form always presented a valid, scoped set of options.",
+            "When logging evidence, the suspect list has to reflect the currently selected case — not every suspect in the system. I wired a change listener on the case dropdown that fetched only the linked suspects, so the form always presented a valid, scoped set of options."
         },
         {
           title: "Threat-level-aware UI",
           detail:
-            "A flat list of suspects ignores how dangerous a record is. I styled cards differently for ArmedAndDangerous and Extreme risk levels, surfacing visual warnings that an investigator would actually scan for — without cluttering low-risk entries.",
+            "A flat list of suspects ignores how dangerous a record is. I styled cards differently for ArmedAndDangerous and Extreme risk levels, surfacing visual warnings that an investigator would actually scan for — without cluttering low-risk entries."
         },
         {
           title: "Flexible evidence assignment",
           detail:
-            "Real investigations log evidence before they know who it belongs to. I decoupled evidence creation from suspect assignment so a record could be filed independently and linked to a suspect later, while still enforcing the relationship once the link existed.",
-        },
+            "Real investigations log evidence before they know who it belongs to. I decoupled evidence creation from suspect assignment so a record could be filed independently and linked to a suspect later, while still enforcing the relationship once the link existed."
+        }
       ],
       solution:
         "The result is a themed, relationship-aware case file system that mirrors real investigative workflows — cascading data keeps input valid, threat-level styling keeps critical records visible, and flexible assignment keeps the evidence pipeline practical.",
@@ -132,7 +132,7 @@ public void CreateTalk(Talk talk)
 
 public IActionResult SuspectsByCase(int caseId) =>
     Json(_service.GetSuspectsForCase(caseId)
-        .Select(s => new { id = s.Id, name = s.FullName }));`,
+        .Select(s => new { id = s.Id, name = s.FullName }));`
         },
         {
           label: "Cascading dropdown (client side)",
@@ -145,10 +145,10 @@ public IActionResult SuspectsByCase(int caseId) =>
   suspectSelect.innerHTML = suspects
     .map((s) => \`<option value="\${s.id}">\${s.name}</option>\`)
     .join("");
-});`,
-        },
-      ],
-    },
+});`
+        }
+      ]
+    }
   },
   {
     slug: "weather-now",
@@ -175,18 +175,18 @@ public IActionResult SuspectsByCase(int caseId) =>
         {
           title: "State without prop drilling",
           detail:
-            "With multiple saved locations, a unit toggle, and an active-location switcher all needing to stay in sync, passing props through every component would have created a fragile, deeply-nested tree. Zustand let each component subscribe only to the slice it cared about.",
+            "With multiple saved locations, a unit toggle, and an active-location switcher all needing to stay in sync, passing props through every component would have created a fragile, deeply-nested tree. Zustand let each component subscribe only to the slice it cared about."
         },
         {
           title: "Geolocation permissions",
           detail:
-            "Requesting location on first load can fail silently or be denied. I built a graceful fallback chain — try geolocation, fall back to a default city, and never block the UI on a permission prompt.",
+            "Requesting location on first load can fail silently or be denied. I built a graceful fallback chain — try geolocation, fall back to a default city, and never block the UI on a permission prompt."
         },
         {
           title: "Polling without thrashing",
           detail:
-            "Weather data drifts, but hammering the API on every render is wasteful and rate-limit-prone. I debounced refreshes and cached recent responses to keep the UI responsive without redundant network calls.",
-        },
+            "Weather data drifts, but hammering the API on every render is wasteful and rate-limit-prone. I debounced refreshes and cached recent responses to keep the UI responsive without redundant network calls."
+        }
       ],
       solution:
         "The result is a weather experience that loads instantly on a saved location, updates gracefully in the background, and surfaces smart recommendations (umbrella, UV, wind) alongside the forecast — all driven by a clean, decoupled store architecture.",
@@ -211,7 +211,7 @@ public IActionResult SuspectsByCase(int caseId) =>
       locations: s.locations.filter((l) => l.id !== id),
       activeId: s.activeId === id ? s.locations[0]?.id : s.activeId,
     })),
-}));`,
+}));`
         },
         {
           label: "Geolocation with graceful fallback",
@@ -230,14 +230,101 @@ public IActionResult SuspectsByCase(int caseId) =>
       { enableHighAccuracy: false, timeout: 8000 }
     );
   }, [setActive]);
-}`,
+}`
+        }
+      ]
+    }
+  },
+  {
+    slug: "job-application-tracker-api",
+    num: "04",
+    title: "Job Application Tracker API",
+    category: "REST API / Backend",
+    tagline:
+      "An N-tier ASP.NET Core Web API for managing job applications, interviews, and skills.",
+    description:
+      "A RESTful ASP.NET Core 9 Web API built on N-Tier architecture and Entity Framework Core. It gives job seekers a centralized backend for tracking applications, multi-stage interviews, associated skill sets, and target company details — with full CRUD, filtering, sorting, and pagination behind documented Swagger/OpenAPI endpoints.",
+    tech: [
+      "ASP.NET Core 9",
+      "C#",
+      "EF Core 9",
+      "SQL Server",
+      "Swagger / OpenAPI"
+    ],
+    image:
+      "https://raw.githubusercontent.com/Fejiro001/job-application-tracker-api/main/swagger.png",
+    live: "https://github.com/Fejiro001/job-application-tracker-api",
+    github: "https://github.com/Fejiro001/job-application-tracker-api",
+    year: "2026",
+    role: "Backend & API Architecture",
+    narrative: {
+      problem:
+        "Job hunting produces scattered data — applications spread across spreadsheets and emails, interview stages tracked in one place, required skills noted nowhere. The goal was a single, well-designed API that modeled the whole domain: users, target companies, applications, multi-stage interviews, and the skills each application demands — with clean contracts that any frontend could consume.",
+      approach:
+        "I structured it as a strict N-Tier solution: controllers handle routing, parameter binding, and status code responses; a Business Logic Layer owns domain rules, validation, and entity-to-DTO mapping; a Data Access Layer holds repository abstractions over EF Core 9 and SQL Server. Five domain entities with realistic relationships — including a many-to-many between applications and skills through an associative entity — surfaced through versioned routes under /api/v1, documented live in Swagger.",
+      hurdles: [
+        {
+          title: "Modeling the many-to-many",
+          detail:
+            "Applications and skills needed a genuine many-to-many relationship. I introduced an ApplicationSkill associative entity so EF Core could map the join explicitly, which keeps the association queryable and lets skills be shared across applications without duplication."
         },
+        {
+          title: "DTO boundaries between layers",
+          detail:
+            "Entities leaking into controller responses couples your API contract to your database schema. I kept every boundary explicit — entities never leave the DAL, DTOs never touch the DbContext, and the BLL owns the mapping in both directions, so schema changes can't silently break the API contract."
+        },
+        {
+          title: "Honest status codes per endpoint",
+          detail:
+            "Each route returns what actually happened: 201 with a location for creates, 204 for updates and deletes, 404 for missing records, and 409 when associating a skill that's already linked. Getting the status codes right is what makes an API predictable to consume."
+        }
       ],
-    },
+      solution:
+        "The result is a documented, layered API where a job seeker's entire pipeline lives in one coherent model — applications, interview stages, and skills in honest relationships — and where every endpoint behaves predictably for any client that calls it.",
+      snippets: [
+        {
+          label: "Controller with explicit status codes",
+          language: "csharp",
+          code: `[HttpPatch("{id}/status")]
+public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdateDto dto)
+{
+    var updated = await _bll.UpdateApplicationStatusAsync(id, dto.Status);
+    return updated ? NoContent() : NotFound();
+}
+
+[HttpPost("{id}/skills")]
+public async Task<IActionResult> AssociateSkill(int id, [FromBody] SkillDto dto)
+{
+    var result = await _bll.AssociateSkillAsync(id, dto);
+    if (result == AssociateResult.AlreadyLinked)
+        return Conflict(new { message = "Skill already associated." });
+    return CreatedAtAction(nameof(GetById), new { id }, null);
+}`
+        },
+        {
+          label: "Entity-to-DTO mapping (BLL)",
+          language: "csharp",
+          code: `public static Application ToEntity(this ApplicationCreateDto dto)
+{
+    return new Application
+    {
+        JobTitle = dto.JobTitle,
+        JobUrl = dto.JobUrl,
+        Status = dto.Status,
+        AppliedDate = dto.AppliedDate,
+        SalaryMin = dto.SalaryMin,
+        SalaryMax = dto.SalaryMax,
+        UserId = dto.UserId,
+        CompanyId = dto.CompanyId
+    };
+}`
+        }
+      ]
+    }
   },
   {
     slug: "scoot",
-    num: "04",
+    num: "05",
     title: "Scoot",
     category: "Multi-Page Website",
     tagline: "A responsive multi-page site for a transportation service.",
@@ -259,13 +346,13 @@ public IActionResult SuspectsByCase(int caseId) =>
         {
           title: "Consistency across contributors",
           detail:
-            "With multiple people touching shared CSS, drift was inevitable. I focused on cleanup and bug fixes — normalizing spacing tokens, removing dead selectors, and aligning component patterns so the codebase stayed maintainable.",
+            "With multiple people touching shared CSS, drift was inevitable. I focused on cleanup and bug fixes — normalizing spacing tokens, removing dead selectors, and aligning component patterns so the codebase stayed maintainable."
         },
         {
           title: "The coming-soon interaction",
           detail:
-            "A static 'coming soon' page is forgettable. I added a lightweight countdown and subtle entrance motion so the page communicated anticipation without depending on a heavy framework.",
-        },
+            "A static 'coming soon' page is forgettable. I added a lightweight countdown and subtle entrance motion so the page communicated anticipation without depending on a heavy framework."
+        }
       ],
       solution:
         "The shipped pages are clean, responsive, and consistent with the rest of the site — and the codebase behind them is tighter and easier to extend than when I joined, which is the quieter half of frontend work that matters most in a team.",
@@ -281,14 +368,14 @@ public IActionResult SuspectsByCase(int caseId) =>
   font-size: clamp(1.75rem, 4vw, 3rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
-}`,
-        },
-      ],
-    },
+}`
+        }
+      ]
+    }
   },
   {
     slug: "easybank",
-    num: "05",
+    num: "06",
     title: "EasyBank",
     category: "Landing Page",
     tagline: "A modern, responsive banking landing page.",
@@ -310,13 +397,13 @@ public IActionResult SuspectsByCase(int caseId) =>
         {
           title: "Overlapping imagery, responsively",
           detail:
-            "The hero mockups overlap the hero copy and bleed off-screen. Naive absolute positioning breaks the moment the viewport changes. I used layered containers with percentage offsets and clip-path so the composition held from mobile to desktop.",
+            "The hero mockups overlap the hero copy and bleed off-screen. Naive absolute positioning breaks the moment the viewport changes. I used layered containers with percentage offsets and clip-path so the composition held from mobile to desktop."
         },
         {
           title: "Hover states that scale",
           detail:
-            "Generic hovers on every link feel noisy. I scoped interaction to primary CTAs and feature cards, using transitions on transform and color so the page responded to intent without becoming busy.",
-        },
+            "Generic hovers on every link feel noisy. I scoped interaction to primary CTAs and feature cards, using transitions on transform and color so the page responded to intent without becoming busy."
+        }
       ],
       solution:
         "The result is a landing page that reads as premium and structured at any width — strong hierarchy, responsive imagery that never breaks composition, and motion used sparingly to guide attention rather than distract from it.",
@@ -333,14 +420,14 @@ public IActionResult SuspectsByCase(int caseId) =>
     position: relative;
     transform: none;
   }
-}`,
-        },
-      ],
-    },
+}`
+        }
+      ]
+    }
   },
   {
     slug: "advice-generator",
-    num: "06",
+    num: "07",
     title: "Advice Generator",
     category: "Web Application",
     tagline: "A single-interaction app powered by an external API.",
@@ -363,13 +450,13 @@ public IActionResult SuspectsByCase(int caseId) =>
         {
           title: "Honest loading & error states",
           detail:
-            "A spinner that never resolves, or an error that silently leaves stale advice on screen, erodes trust. I covered pending, success, and failure explicitly, surfacing a retry affordance on error.",
+            "A spinner that never resolves, or an error that silently leaves stale advice on screen, erodes trust. I covered pending, success, and failure explicitly, surfacing a retry affordance on error."
         },
         {
           title: "Smooth content swaps",
           detail:
-            "Replacing text instantly feels janky. I cross-faded the outgoing and incoming advice so each new draw read as deliberate motion, not a flash.",
-        },
+            "Replacing text instantly feels janky. I cross-faded the outgoing and incoming advice so each new draw read as deliberate motion, not a flash."
+        }
       ],
       solution:
         "What looks like a tiny app is really an exercise in state discipline — every async branch handled, every transition intentional, and the single interaction polished until it feels effortless.",
@@ -390,28 +477,9 @@ public IActionResult SuspectsByCase(int caseId) =>
   } finally {
     setLoading(false);
   }
-}`,
-        },
-      ],
-    },
-  },
+}`
+        }
+      ]
+    }
+  }
 ];
-
-export function getProjectBySlug(slug) {
-  return projects.find((p) => p.slug === slug);
-}
-
-export function getAdjacentProjects(slug) {
-  const idx = projects.findIndex((p) => p.slug === slug);
-  return {
-    prev: idx > 0 ? projects[idx - 1] : null,
-    next: idx < projects.length - 1 ? projects[idx + 1] : null,
-  };
-}
-
-// Parse owner/repo from a GitHub URL for the REST API.
-export function parseRepo(githubUrl) {
-  const match = githubUrl?.match(/github\.com\/([^/]+)\/([^/?#]+)/);
-  if (!match) return null;
-  return { owner: match[1], repo: match[2] };
-}
