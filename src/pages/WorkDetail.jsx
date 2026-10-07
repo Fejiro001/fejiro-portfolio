@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { motion } from "framer-motion";
@@ -15,9 +14,9 @@ import CodeBlock from "../components/CodeBlock";
 import {
   getProjectBySlug,
   getAdjacentProjects,
-  parseRepo,
   formatDate
 } from "../utils/projectUtils";
+import { useGithubStats } from "../hooks/useGithubStats";
 
 function StatPill({ icon: Icon, label, value }) {
   return (
@@ -33,49 +32,10 @@ function StatPill({ icon: Icon, label, value }) {
   );
 }
 
-function useRepoStats(githubUrl) {
-  const [stats, setStats] = useState(null);
-  const [status, setStatus] = useState("loading"); // loading | ok | error
-
-  useEffect(() => {
-    let cancelled = false;
-    const repo = parseRepo(githubUrl);
-    if (!repo) {
-      setStatus("error");
-      return;
-    }
-    setStatus("loading");
-    fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("rate-limited");
-        return res.json();
-      })
-      .then((data) => {
-        if (cancelled) return;
-        setStats({
-          stars: data.stargazers_count ?? 0,
-          forks: data.forks_count ?? 0,
-          language: data.language,
-          updated: data.pushed_at,
-          description: data.description
-        });
-        setStatus("ok");
-      })
-      .catch(() => {
-        if (!cancelled) setStatus("error");
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [githubUrl]);
-
-  return { stats, status };
-}
-
 export default function WorkDetail() {
   const { slug } = useParams();
   const project = getProjectBySlug(slug);
-  const { stats, status } = useRepoStats(project?.github);
+  const { stats, status } = useGithubStats(project?.github);
 
   if (!project) {
     return (
