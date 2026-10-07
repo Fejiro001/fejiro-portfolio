@@ -45,4 +45,4 @@ To get a local copy up and running, follow these simple steps:
    npm run dev
    
 ## Demo
-You can view the live demo of my portfolio website [here](https://fejiro-abere.vercel.app/).
+You can view the live demo of my portfolio website [here](https://fejiroabere.com/).
