@@ -1,7 +1,39 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Github, Linkedin, Mail } from "feather-icons-react";
 
 export default function ContactFooter() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful, isSubmitting }
+  } = useForm();
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const onSubmit = async (data) => {
+    await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(data, null, 2)
+    })
+      .then(async (response) => {
+        const result = await response.json();
+        if (result.success) {
+          reset();
+          setIsSuccess(true);
+        }
+      })
+      .catch((error) => {
+        setIsSuccess(false);
+        console.log(error);
+      });
+  };
+
   return (
     <footer
       id="contact"
@@ -23,6 +55,93 @@ export default function ContactFooter() {
         </motion.h2>
 
         <div className="mt-12 md:mt-20 grid md:grid-cols-12 gap-10">
+          {/* Contact form */}
+          <div className="md:col-span-7">
+            {isSubmitSuccessful && isSuccess ? (
+              <div className="border border-accent-foreground/20 bg-accent-foreground/5 p-10">
+                <p className="font-mono text-xs uppercase tracking-[0.3em] mb-3 text-accent-foreground/70">
+                  Confirmation
+                </p>
+                <p className="text-xl md:text-2xl font-light">
+                  Your message has been sent successfully. I'll be in touch
+                  shortly.
+                </p>
+                <button
+                  onClick={() => reset()}
+                  className="mt-6 font-mono text-xs uppercase tracking-[0.2em] underline underline-offset-4">
+                  Send another
+                </button>
+              </div>
+            ) : (
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="space-y-px bg-accent-foreground/15">
+                <input
+                  type="hidden"
+                  name="access_key"
+                  value="a776efc3-9435-4992-8dcf-979a3636111e"
+                />
+                <div className="flex items-center bg-accent">
+                  <label className="font-mono text-xs uppercase tracking-[0.2em] text-accent-foreground/60 w-28 md:w-36 px-4 md:px-6 shrink-0">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    {...register("name", { required: true })}
+                    className="flex-1 bg-accent h-14 px-4 py-3 text-lg font-light placeholder:text-accent-foreground/40 focus:outline-none focus:ring-0"
+                    placeholder="Your name"
+                  />
+                  {errors.name && (
+                    <span className="font-mono text-xs text-accent-foreground/80 ml-4">
+                      Name is required
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center bg-accent border-t border-accent-foreground/20">
+                  <label className="font-mono text-xs uppercase tracking-[0.2em] text-accent-foreground/60 w-28 md:w-36 px-4 md:px-6 shrink-0">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    {...register("email", { required: true })}
+                    className="flex-1 bg-accent h-14 px-4 py-3 text-lg font-light placeholder:text-accent-foreground/40 focus:outline-none focus:ring-0"
+                    placeholder="you@email.com"
+                  />
+                  {errors.email && (
+                    <span className="font-mono text-xs text-accent-foreground/80 ml-4">
+                      Email is required
+                    </span>
+                  )}
+                </div>
+                <div className="flex bg-accent border-t border-accent-foreground/20">
+                  <label className="font-mono text-xs uppercase tracking-[0.2em] text-accent-foreground/60 w-28 md:w-36 px-4 md:px-6 pt-4 shrink-0">
+                    Message
+                  </label>
+                  <textarea
+                    rows={4}
+                    {...register("message", { required: true })}
+                    className="flex-1 bg-accent px-4 py-3 text-lg font-light placeholder:text-accent-foreground/40 focus:outline-none focus:ring-0 resize-none"
+                    placeholder="Tell me about your project..."
+                  />
+                  {errors.message && (
+                    <span className="font-mono text-xs bg-destructive-foreground text-destructive ml-4">
+                      Message is required
+                    </span>
+                  )}
+                </div>
+                <div className="bg-accent border-t border-accent-foreground/20 p-4 md:p-6 flex items-center justify-between">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="ml-auto inline-flex items-center gap-3 px-8 h-12 bg-accent-foreground text-accent font-mono text-xs uppercase tracking-[0.2em] hover:opacity-80 transition-opacity disabled:opacity-50">
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                    <ArrowUpRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+
           {/* Direct contact + socials */}
           <div className="md:col-span-4 md:col-start-9 flex flex-col gap-8">
             <div>
