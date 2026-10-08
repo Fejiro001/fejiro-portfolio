@@ -13,7 +13,7 @@ export default function ContactFooter() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const onSubmit = async (data) => {
-    const response = fetch("https://api.web3forms.com/submit", {
+    const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,8 +76,8 @@ export default function ContactFooter() {
                 className="space-y-px bg-accent-foreground/15">
                 <input
                   type="hidden"
-                  name="access_key"
-                  value="a776efc3-9435-4992-8dcf-979a3636111e"
+                  value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY}
+                  {...register("access_key")}
                 />
                 <div className="flex items-center bg-accent">
                   <label className="font-mono text-xs uppercase tracking-[0.2em] text-accent-foreground/60 w-28 md:w-36 px-4 md:px-6 shrink-0">
