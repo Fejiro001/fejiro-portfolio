@@ -3,6 +3,24 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Github, Linkedin, Mail } from "feather-icons-react";
 
+const socials = [
+  {
+    label: "GitHub",
+    href: "https://github.com/Fejiro001",
+    icon: Github
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/oghenefejiro-abere-487b08161/",
+    icon: Linkedin
+  },
+  {
+    label: "Frontend Mentor",
+    href: "https://www.frontendmentor.io/profile/Fejiro001",
+    icon: ArrowUpRight
+  }
+];
+
 export default function ContactFooter() {
   const {
     register,
@@ -154,27 +172,11 @@ export default function ContactFooter() {
               </a>
             </div>
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent-foreground/60 mb-3">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent-foreground/50 mb-3">
                 Elsewhere
               </p>
               <div className="flex flex-col gap-3">
-                {[
-                  {
-                    label: "GitHub",
-                    href: "https://github.com/Fejiro001",
-                    icon: Github
-                  },
-                  {
-                    label: "LinkedIn",
-                    href: "https://www.linkedin.com/in/oghenefejiro-abere-487b08161/",
-                    icon: Linkedin
-                  },
-                  {
-                    label: "Frontend Mentor",
-                    href: "https://www.frontendmentor.io/profile/Fejiro001",
-                    icon: ArrowUpRight
-                  }
-                ].map((s) => (
+                {socials.map((s) => (
                   <a
                     key={s.label}
                     href={s.href}
@@ -194,15 +196,15 @@ export default function ContactFooter() {
 
         {/* Bottom bar */}
         <div className="mt-16 md:mt-24 pt-8 border-t border-accent-foreground/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent-foreground/60">
-            © {new Date().getFullYear()} Fejiro Abere
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent-foreground">
+            ©{new Date().getFullYear()} Fejiro Abere
           </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent-foreground/60">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent-foreground">
             Built with React · Tailwind CSS
           </p>
           <a
             href="#top"
-            className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent-foreground/60 hover:text-accent-foreground">
+            className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent-foreground hover:text-accent-foreground">
             Back to top ↑
           </a>
         </div>
