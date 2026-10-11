@@ -11,7 +11,7 @@ const items = [
   },
   {
     label: "Exploring",
-    text: "TypeScript and scalable frontend architecture."
+    text: "TypeScript and AWS."
   },
   {
     label: "Based in",

@@ -24,57 +24,129 @@ export const projects = [
         {
           title: "Enforcing scheduling rules",
           detail:
-            "Talks can't overlap in the same room, must sit inside the conference's date range, and must end after they start. I centralized those checks in the service layer so every create and update path validated against the same rules — the UI could never let an invalid schedule slip through."
+            "Talks can't overlap in the same room, must sit inside the conference's date range, and must end after they start. I centralized those checks in the service layer so every create and update path validated against the same rules, the UI could never let an invalid schedule slip through."
         },
         {
           title: "Layering without leakage",
           detail:
-            "A conference domain invites thick controllers. I kept the presentation layer thin by pushing logic into services and data access into repositories, so controllers only coordinated — which made the business rules testable and the codebase easier to extend."
+            "Conference systems get complicated quickly, which makes it easy for controllers to turn into a messy wall of code. To avoid that, I kept the controllers lightweight by moving core business logic and database calls into dedicated services. This made our business rules effortless to unit-test and kept the app easy to build on."
         },
         {
           title: "Personal schedules with auth",
           detail:
-            "Letting users save talks meant tying ASP.NET Core Identity to a SavedTalk join table, with a business rule preventing duplicates. The same identity system drove role-based access so admins and visitors saw exactly what they were allowed to."
+            "To let attendees save talks to their schedules, I linked ASP.NET Core Identity to a SavedTalk join table, adding logic to prevent users from double-saving the same session. I then used that same identity system to drive role-based permissions, keeping admin tools and general attendee views cleanly separated."
         }
       ],
       solution:
-        "The result is a platform that scales across its three audiences: visitors filter and browse schedules, registered users build personal agendas, and administrators get full CRUD with scheduling rules enforced at the source — all on a layered architecture that stays maintainable as the domain grows.",
+        "The end result is a platform built to serve three distinct groups: visitors can easily filter and browse sessions, logged-in users can curate custom schedules, and admins get complete control over schedule management with built-in rule validation. Under the hood, the layered structure keeps everything modular and easy to maintain as new features are added.",
       snippets: [
         {
-          label: "Room overlap validation (service layer)",
-          language: "csharp",
-          code: `public bool HasOverlap(int roomId, DateTime start, DateTime end, int? excludeId = null)
-{
-    return _context.Talks.Any(t =>
-        t.RoomId == roomId &&
-        (excludeId == null || t.Id != excludeId) &&
-        t.StartTime < end && start < t.EndTime);
-}
+          label: "Talk validation (service layer)",
+          language: "c#",
+          code: `private async Task ValidateTalkAsync(Talk talk, int? excludeTalkId)
+        {
+            Conference? conference = await _conferenceRepository.GetConferenceByIdAsync(talk.ConferenceId) ?? throw new ArgumentException("Conference does not exist.");
 
-public void CreateTalk(Talk talk)
-{
-    if (talk.EndTime <= talk.StartTime)
-        throw new ValidationException("End time must be after start time.");
-    if (HasOverlap(talk.RoomId, talk.StartTime, talk.EndTime))
-        throw new ValidationException("This room already has a talk at that time.");
-    _context.Talks.Add(talk);
-    _context.SaveChanges();
-}`
+            if (await _roomRepository.GetRoomByIdAsync(talk.RoomId) == null)
+            {
+                throw new ArgumentException("Room does not exist.");
+            }
+
+            if (await _speakerRepository.GetSpeakerByIdAsync(talk.SpeakerId) == null)
+            {
+                throw new ArgumentException("Speaker does not exist.");
+            }
+
+            if (await _trackRepository.GetTrackByIdAsync(talk.TrackId) == null)
+            {
+                throw new ArgumentException("Track does not exist.");
+            }
+
+            if (talk.EndDateTime <= talk.StartDateTime)
+            {
+                throw new ArgumentException("End date must be after start date.");
+            }
+
+            DateOnly talkStartDate = DateOnly.FromDateTime(talk.StartDateTime);
+            DateOnly talkEndDate = DateOnly.FromDateTime(talk.EndDateTime);
+
+            // Ensures a talk start and end date are within a conference start and end date
+            if (talkStartDate < conference.StartDate || talkEndDate > conference.EndDate)
+            {
+                throw new ArgumentException("Talk must occur within the conference dates.");
+            }
+
+            // Checks if a room is available
+            bool isRoomBooked = await _repository.IsRoomBookedAsync(
+                talk.RoomId,
+                talk.StartDateTime,
+                talk.EndDateTime,
+                excludeTalkId);
+
+            if (isRoomBooked)
+            {
+                throw new InvalidOperationException("The selected room is already booked during this time frame.");
+            }
+        }
+
+        // Create Talk
+        public async Task AddTalkAsync(Talk talk)
+        {
+            await ValidateTalkAsync(talk, null);
+
+            if (talk.IsKeynote)
+            {
+                await EnsureSingleKeynoteAsync(talk.ConferenceId, null);
+            }
+
+            await _repository.AddTalkAsync(talk);
+            await _repository.SaveChangesAsync();
+        }`
         },
         {
-          label: "Repository over EF Core",
-          language: "csharp",
-          code: `public class TalkRepository : ITalkRepository
-{
-    private readonly AppDbContext _ctx;
-    public TalkRepository(AppDbContext ctx) => _ctx = ctx;
+          label: "Get schedule with filtering (repository layer)",
+          language: "c#",
+          code: `public class TalkRepository
+    {
+        private readonly TechConfCentralContext _context;
+        public TalkRepository(TechConfCentralContext context)
+        {
+            _context = context;
+        }
 
-    public IEnumerable<Talk> GetByConference(int confId) =>
-        _ctx.Talks
-            .Include(t => t.Speaker)
-            .Include(t => t.Room)
-            .Where(t => t.ConferenceId == confId)
-            .ToList();
+        // Get Talks for Schedule with additional filtering
+        public async Task<List<Talk>> GetScheduleAsync(int conferenceId, int? day, int? trackId, int? roomId)
+        {
+            var query = TalksWithDetails()
+                .Where(t => t.ConferenceId == conferenceId);
+
+            if (day.HasValue)
+            {
+                DateOnly conferenceStart = await _context.Conferences
+                    .Where(c => c.Id == conferenceId)
+                    .Select(c => c.StartDate)
+                    .FirstAsync();
+
+                DateOnly selectedDate = conferenceStart.AddDays(day.Value - 1);
+
+                query = query.Where(t => DateOnly.FromDateTime(t.StartDateTime) == selectedDate);
+            }
+
+            if (trackId.HasValue)
+            {
+                query = query.Where(t => t.TrackId == trackId);
+            }
+
+            if (roomId.HasValue)
+            {
+                query = query.Where(t => t.RoomId == roomId); ;
+            }
+
+            return await query
+                .OrderBy(t => t.StartDateTime)
+                .AsNoTracking()
+                .ToListAsync();
+        }
 }`
         }
       ]
@@ -123,7 +195,7 @@ public void CreateTalk(Talk talk)
       snippets: [
         {
           label: "LINQ — suspects scoped to a case",
-          language: "csharp",
+          language: "c#",
           code: `public IEnumerable<Suspect> GetSuspectsForCase(int caseId) =>
     _suspects
         .Where(s => s.CaseId == caseId)
@@ -284,7 +356,7 @@ public IActionResult SuspectsByCase(int caseId) =>
       snippets: [
         {
           label: "Controller with explicit status codes",
-          language: "csharp",
+          language: "c#",
           code: `[HttpPatch("{id}/status")]
 public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdateDto dto)
 {
@@ -303,7 +375,7 @@ public async Task<IActionResult> AssociateSkill(int id, [FromBody] SkillDto dto)
         },
         {
           label: "Entity-to-DTO mapping (BLL)",
-          language: "csharp",
+          language: "c#",
           code: `public static Application ToEntity(this ApplicationCreateDto dto)
 {
     return new Application

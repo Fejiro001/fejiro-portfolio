@@ -58,7 +58,7 @@ export default function WorkDetail() {
   }
 
   const { prev, next } = getAdjacentProjects(slug);
-  const n = project.narrative;
+  const narr = project.narrative;
 
   return (
     <div className="relative min-h-screen bg-background text-foreground">
@@ -232,8 +232,8 @@ export default function WorkDetail() {
               </div>
               <div className="md:col-span-9 space-y-16">
                 {[
-                  { label: "The Problem", text: n.problem },
-                  { label: "The Approach", text: n.approach }
+                  { label: "The Problem", text: narr.problem },
+                  { label: "The Approach", text: narr.approach }
                 ].map((sec) => (
                   <motion.div
                     key={sec.label}
@@ -260,7 +260,7 @@ export default function WorkDetail() {
                     Technical Hurdles
                   </p>
                   <div className="grid gap-px bg-border border border-border">
-                    {n.hurdles.map((h, i) => (
+                    {narr.hurdles.map((h, i) => (
                       <div
                         key={h.title}
                         className="bg-background p-6 md:p-8 flex gap-6">
@@ -290,7 +290,7 @@ export default function WorkDetail() {
                     The Solution
                   </p>
                   <p className="text-lg md:text-xl leading-relaxed text-foreground/90 max-w-3xl">
-                    {n.solution}
+                    {narr.solution}
                   </p>
                 </motion.div>
 
@@ -304,7 +304,7 @@ export default function WorkDetail() {
                     Code Excerpts
                   </p>
                   <div className="space-y-6">
-                    {n.snippets.map((s) => (
+                    {narr.snippets.map((s) => (
                       <CodeBlock
                         key={s.label}
                         label={s.label}

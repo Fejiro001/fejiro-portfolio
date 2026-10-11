@@ -10,7 +10,7 @@ export default function CodeBlock({ label, language, code }) {
         </span>
       </div>
       <pre className="overflow-x-auto p-5 md:p-6 bg-background">
-        <code className="font-mono text-xs md:text-sm leading-relaxed text-foreground/80">
+        <code className="font-mono text-xs md:text-sm leading-relaxed text-foreground/80 text-wrap">
           {code}
         </code>
       </pre>
