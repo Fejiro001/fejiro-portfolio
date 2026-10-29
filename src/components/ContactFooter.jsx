@@ -165,7 +165,7 @@ export default function ContactFooter() {
                 Direct
               </p>
               <a
-                href="mailto:fejiroabere@gmail.com"
+                href="mailto:aberefejiro@gmail.com"
                 className="inline-flex items-center gap-2 text-lg md:text-xl font-light hover:opacity-80 transition-opacity">
                 <Mail className="h-5 w-5" />
                 aberefejiro@gmail.com
